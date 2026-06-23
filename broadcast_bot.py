@@ -2,31 +2,37 @@ import os
 import asyncio
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (
-    ApplicationBuilder, CommandHandler, MessageHandler,
-    CallbackQueryHandler, filters, ContextTypes
+    ApplicationBuilder, CommandHandler,
+    CallbackQueryHandler, ContextTypes
 )
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-CH1_ID   = os.getenv("CH1_ID")    
-CH1_LINK = os.getenv("CH1_LINK")  
+CH1_ID   = os.getenv("CH1_ID")
+CH1_LINK = os.getenv("CH1_LINK")
 
 CH2_ID   = os.getenv("CH2_ID")
 CH2_LINK = os.getenv("CH2_LINK")
 
-
-
 AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 
-# Owner ka set kiya hua message yahan store hoga
-current_message = {"text": None}
+# ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
+# ✏️ YAHAN APNA MESSAGE LIKHO:
+
+HELLO_MESSAGE = """
+👋 *Hello! Welcome!*
+
+Yeh tumhara custom message hai.
+Jo bhi likhna ho yahan likho.
+
+📢 Channel: https://t.me/ruchika_ownss
+"""
 
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
 
 async def is_user_joined(bot, user_id: int) -> bool:
-    """Check karta hai ki user teeno channels mein join hai ya nahi."""
     for channel_id in [CH1_ID, CH2_ID]:
         if not channel_id:
             continue
@@ -39,12 +45,10 @@ async def is_user_joined(bot, user_id: int) -> bool:
     return True
 
 def join_markup() -> InlineKeyboardMarkup:
-    """Teen channels ke join buttons + Try Again button."""
     return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("📢 Join Channel 1", url="https://t.me/ruchika_ownss"),
-            
-            InlineKeyboardButton("📢 Join Channel 2", url="https://t.me/backupvnsh"),
+            InlineKeyboardButton("📢 Join Channel 1", url=CH1_LINK or "https://t.me/ruchika_ownss"),
+            InlineKeyboardButton("📢 Join Channel 2", url=CH2_LINK or "https://t.me/backupvnsh"),
         ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
@@ -58,15 +62,28 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
     except Exception:
         pass
 
-# ── SEND OWNER MESSAGE TO USER ────────────────────────────────────────────────
+# ── HELLO MESSAGE SEND + AUTO DELETE ─────────────────────────────────────────
 
-async def send_owner_message(bot, chat_id):
-    if not current_message["text"]:
-        return
+async def send_hello_message(bot, chat_id):
     sent = await bot.send_message(
         chat_id=chat_id,
-        text=current_message["text"],
-        parse_mode="Markdown"
+        text=1. AAPKO APNI INSTAGRAM KA CLEAR DATA OR CLEAR CACHE KAR LENA HE .
+
+2. 1 NEW FRESH ACCOUNT BANA DO MOBILE NUMBER USE KARNA GMAIL SE MAT KARNA.
+
+3. GERMANY KA VPN CONNECT KAR LENA.
+
+4. JO GMAIL JACKING ID SE CONNECT HE VO GMAIL SE ID CONNECT KAR LO.
+
+5. CONNECT KE BAD LOGOUT KAR DO.
+
+6. INSTAPRO YA INSTAGRAMGOLD SE FORGOT PASS KARO OR GMAIL PE LINK BHEJO 
+
+7. AGAR RESET NAI AATA HE TO GMAIL KOI OR TRY KARO 
+
+99% RESET AAJAYEGA,
+        parse_mode="Markdown",
+        protect_content=True   # ← copy/forward band
     )
     asyncio.create_task(schedule_delete(bot, chat_id, sent.message_id))
 
@@ -84,14 +101,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # Join ho gaya → owner ka message dikhao
-    if current_message["text"]:
-        await send_owner_message(context.bot, update.effective_chat.id)
-    else:
-        await update.message.reply_text(
-            f"👋 Hello *{user.first_name}*!\n\n✅ Bot active hai. Owner ka message aane ka wait karo.",
-            parse_mode="Markdown"
-        )
+    await send_hello_message(context.bot, update.effective_chat.id)
 
 # ── VERIFY JOIN CALLBACK ──────────────────────────────────────────────────────
 
@@ -123,8 +133,8 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             schedule_delete(context.bot, granted.chat.id, granted.message_id)
         )
 
-        # Owner ka message bhi bhejo
-        await send_owner_message(context.bot, query.message.chat.id)
+        # Hello message bhejo — copy/forward band, 5 min baad delete
+        await send_hello_message(context.bot, query.message.chat.id)
 
     else:
         await query.answer(
@@ -132,50 +142,14 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             show_alert=True
         )
 
-# ── OWNER: SET MESSAGE ────────────────────────────────────────────────────────
-
-async def setmsg(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    /setmsg <text>
-    Owner jo message set karega, join karne waale users ko dikhega + 5 min auto-delete
-    """
-    if update.effective_user.id != OWNER_ID:
-        await update.message.reply_text("❌ Only owner can use this.")
-        return
-
-    if not context.args:
-        cur = current_message["text"] or "_(not set)_"
-        await update.message.reply_text(
-            f"❌ Usage: `/setmsg <message>`\n\n*Current message:*\n{cur}",
-            parse_mode="Markdown"
-        )
-        return
-
-    current_message["text"] = " ".join(context.args)
-    await update.message.reply_text(
-        f"✅ Message set!\n\n📢 *Preview:*\n{current_message['text']}\n\n"
-        "Ab jo bhi user join karega, use yeh message milega aur 5 min baad delete ho jayega.",
-        parse_mode="Markdown"
-    )
-
-# ── OWNER: CLEAR MESSAGE ──────────────────────────────────────────────────────
-
-async def clearmsg(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id != OWNER_ID:
-        return
-    current_message["text"] = None
-    await update.message.reply_text("🗑️ Message cleared.")
-
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    app.add_handler(CommandHandler("start",    start))
+    app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(verify_join_callback, pattern="^verify_join$"))
-    app.add_handler(CommandHandler("setmsg",   setmsg))
-    app.add_handler(CommandHandler("clearmsg", clearmsg))
-    
+
     print("✅ Bot started...")
     app.run_polling()
 
