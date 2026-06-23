@@ -80,7 +80,7 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
 
 # ── METHDO SEND + AUTO DELETE ─────────────────────────────────────────
 
-async def send_Method(bot, chat_id):
+async def Method(bot, chat_id):
     sent = await bot.send_message(
         chat_id=chat_id,
         text=METHOD,
@@ -103,7 +103,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    await send_METHOD(context.bot, update.effective_chat.id)
+    await METHOD(context.bot, update.effective_chat.id)
 
 # ── VERIFY JOIN CALLBACK ──────────────────────────────────────────────────────
 
