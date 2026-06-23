@@ -83,7 +83,7 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
 async def send_Method(bot, chat_id):
     sent = await bot.send_message(
         chat_id=chat_id,
-        text=HELLO_MESSAGE,
+        text=METHOD,
         parse_mode="Markdown",
         protect_content=True
     )
@@ -103,7 +103,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    await send_hello_message(context.bot, update.effective_chat.id)
+    await send_METHOD(context.bot, update.effective_chat.id)
 
 # ── VERIFY JOIN CALLBACK ──────────────────────────────────────────────────────
 
@@ -135,7 +135,7 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             schedule_delete(context.bot, granted.chat.id, granted.message_id)
         )
 
-        await send_hello_message(context.bot, query.message.chat.id)
+        await send_METHOD(context.bot, query.message.chat.id)
 
     else:
         await query.answer(
