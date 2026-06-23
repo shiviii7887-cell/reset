@@ -9,7 +9,6 @@ from telegram.ext import (
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-OWNER_ID  = int(os.getenv("OWNER_ID", "0"))  
 
 CH1_ID   = os.getenv("CH1_ID")    
 CH1_LINK = os.getenv("CH1_LINK")  
@@ -17,8 +16,7 @@ CH1_LINK = os.getenv("CH1_LINK")
 CH2_ID   = os.getenv("CH2_ID")
 CH2_LINK = os.getenv("CH2_LINK")
 
-CH3_ID   = os.getenv("CH3_ID")
-CH3_LINK = os.getenv("CH3_LINK")
+
 
 AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 
@@ -29,7 +27,7 @@ current_message = {"text": None}
 
 async def is_user_joined(bot, user_id: int) -> bool:
     """Check karta hai ki user teeno channels mein join hai ya nahi."""
-    for channel_id in [CH1_ID, CH2_ID, CH3_ID]:
+    for channel_id in [CH1_ID, CH2_ID]:
         if not channel_id:
             continue
         try:
@@ -45,8 +43,8 @@ def join_markup() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
         [
             InlineKeyboardButton("📢 Join Channel 1", url="https://t.me/ruchika_ownss"),
-            InlineKeyboardButton("📢 Join Channel 2", url="https://t.me/v4nshera"),
-            InlineKeyboardButton("📢 Join Channel 3", url="https://t.me/backupvnsh"),
+            
+            InlineKeyboardButton("📢 Join Channel 2", url="https://t.me/backupvnsh"),
         ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
