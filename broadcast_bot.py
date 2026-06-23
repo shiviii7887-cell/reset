@@ -1,3 +1,4 @@
+import os
 import asyncio
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (
@@ -7,38 +8,45 @@ from telegram.ext import (
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
-OWNER_ID  = 123456789   # apna Telegram ID daal
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+OWNER_ID  = int(os.getenv("OWNER_ID", "0"))  
 
-CH1_ID   = "@ruchika_ownss"
-CH1_LINK = "https://t.me/ruchika_ownss"
-CH2_ID   = "@richatalks77"
-CH2_LINK = "https://t.me/richatalks77"
+CH1_ID   = os.getenv("CH1_ID")    
+CH1_LINK = os.getenv("CH1_LINK")  
+
+CH2_ID   = os.getenv("CH2_ID")
+CH2_LINK = os.getenv("CH2_LINK")
+
+CH3_ID   = os.getenv("CH3_ID")
+CH3_LINK = os.getenv("CH3_LINK")
 
 AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 
-# Owner jo message set karega, vo yahan store hoga
+# Owner ka set kiya hua message yahan store hoga
 current_message = {"text": None}
 
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
 
-async def is_user_joined(bot, user_id):
-    try:
-        m1 = await bot.get_chat_member(CH1_ID, user_id)
-        m2 = await bot.get_chat_member(CH2_ID, user_id)
-        return (
-            m1.status not in ["left", "kicked"] and
-            m2.status not in ["left", "kicked"]
-        )
-    except Exception as e:
-        print(f"Join check error: {e}")
-        return True
+async def is_user_joined(bot, user_id: int) -> bool:
+    """Check karta hai ki user teeno channels mein join hai ya nahi."""
+    for channel_id in [CH1_ID, CH2_ID, CH3_ID]:
+        if not channel_id:
+            continue
+        try:
+            member = await bot.get_chat_member(chat_id=channel_id, user_id=user_id)
+            if member.status not in ("member", "administrator", "creator"):
+                return False
+        except Exception:
+            return False
+    return True
 
-def join_markup():
+def join_markup() -> InlineKeyboardMarkup:
+    """Teen channels ke join buttons + Try Again button."""
     return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("📢 Join Channel 1", url=CH1_LINK),
-            InlineKeyboardButton("📢 Join Channel 2", url=CH2_LINK),
+            InlineKeyboardButton("📢 Join Channel 1", url="https://t.me/ruchika_ownss"),
+            InlineKeyboardButton("📢 Join Channel 2", url="https://t.me/v4nshera"),
+            InlineKeyboardButton("📢 Join Channel 3", url="https://t.me/backupvnsh"),
         ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
@@ -49,7 +57,7 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
     await asyncio.sleep(delay)
     try:
         await bot.delete_message(chat_id=chat_id, message_id=message_id)
-    except:
+    except Exception:
         pass
 
 # ── SEND OWNER MESSAGE TO USER ────────────────────────────────────────────────
@@ -78,7 +86,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # Already joined → directly owner message show karo
+    # Join ho gaya → owner ka message dikhao
     if current_message["text"]:
         await send_owner_message(context.bot, update.effective_chat.id)
     else:
@@ -101,10 +109,9 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
         )
         try:
             await query.message.delete()
-        except:
+        except Exception:
             pass
 
-        # Access granted message
         granted = await context.bot.send_message(
             query.message.chat.id,
             "┏━━━「 ᴀᴄᴄᴇss ɢʀᴀɴᴛᴇᴅ 🎉 」━━━┓\n"
@@ -118,7 +125,7 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             schedule_delete(context.bot, granted.chat.id, granted.message_id)
         )
 
-        # Owner ka message bhi bhejo + 5 min auto-delete
+        # Owner ka message bhi bhejo
         await send_owner_message(context.bot, query.message.chat.id)
 
     else:
@@ -132,7 +139,7 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
 async def setmsg(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     /setmsg <text>
-    Owner jo message set karega, join karne waale users ko dikhaega + 5 min auto-delete
+    Owner jo message set karega, join karne waale users ko dikhega + 5 min auto-delete
     """
     if update.effective_user.id != OWNER_ID:
         await update.message.reply_text("❌ Only owner can use this.")
@@ -167,10 +174,10 @@ def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start",    start))
+    app.add_handler(CallbackQueryHandler(verify_join_callback, pattern="^verify_join$"))
     app.add_handler(CommandHandler("setmsg",   setmsg))
     app.add_handler(CommandHandler("clearmsg", clearmsg))
-    app.add_handler(CallbackQueryHandler(verify_join_callback, pattern="^verify_join$"))
-
+    
     print("✅ Bot started...")
     app.run_polling()
 
