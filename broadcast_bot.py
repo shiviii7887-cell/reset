@@ -21,13 +21,27 @@ AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 # ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
 # ✏️ YAHAN APNA MESSAGE LIKHO:
 
-HELLO_MESSAGE = """
-👋 *Hello! Welcome!*
+METHOD = """
+1. AAPKO APNI INSTAGRAM OR FACEBOOK KA CLEAR DATA OR CLEAR CACHE KAR LENA HE.
 
-Yeh tumhara custom message hai.
-Jo bhi likhna ho yahan likho.
+2. 1 FACEBOOK ME NEW FRESH ACCOUNT BANA DO. 
 
-📢 Channel: https://t.me/ruchika_ownss
+3. GERMANY KA VPN CONNECT KAR LENA [JAB ACCOUNTS LINK KAROGE].
+
+4. JO GMAIL JACKING ID SE CONNECT HE VO GMAIL SE FACEBOOK CONNECT KAR LO.
+
+5. CONNECT KE BAD LOGOUT KAR DO FACEBOOK.
+
+6. SAME INSTAGRAM ME NEW ACCOUNT PHONE NUMBER SE BANA DO.
+
+7. USME BHI SAME GMAIL JACKING VALA ADD KAR DO.
+
+8. FB OR IG KO LINK KAR DO OR PHIR VAPAS SE INSTAGRAM SE LOGOUT KAR DO.
+
+6. INSTAPRO YA INSTAGRAMGOLD SE FORGOT PASS KARO OR GMAIL PE LINK BHEJO. 
+
+7. AGAR RESET NAI AATA HE TO GMAIL KOI OR TRY KARO. 
+
 """
 
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
@@ -62,28 +76,14 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
     except Exception:
         pass
 
-# ── HELLO MESSAGE SEND + AUTO DELETE ─────────────────────────────────────────
+# ── METHDO SEND + AUTO DELETE ─────────────────────────────────────────
 
-async def send_hello_message(bot, chat_id):
+async def send_Method(bot, chat_id):
     sent = await bot.send_message(
         chat_id=chat_id,
-        text=1. AAPKO APNI INSTAGRAM KA CLEAR DATA OR CLEAR CACHE KAR LENA HE .
-
-2. 1 NEW FRESH ACCOUNT BANA DO MOBILE NUMBER USE KARNA GMAIL SE MAT KARNA.
-
-3. GERMANY KA VPN CONNECT KAR LENA.
-
-4. JO GMAIL JACKING ID SE CONNECT HE VO GMAIL SE ID CONNECT KAR LO.
-
-5. CONNECT KE BAD LOGOUT KAR DO.
-
-6. INSTAPRO YA INSTAGRAMGOLD SE FORGOT PASS KARO OR GMAIL PE LINK BHEJO 
-
-7. AGAR RESET NAI AATA HE TO GMAIL KOI OR TRY KARO 
-
-99% RESET AAJAYEGA,
+        text=HELLO_MESSAGE,
         parse_mode="Markdown",
-        protect_content=True   # ← copy/forward band
+        protect_content=True
     )
     asyncio.create_task(schedule_delete(bot, chat_id, sent.message_id))
 
@@ -133,7 +133,6 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             schedule_delete(context.bot, granted.chat.id, granted.message_id)
         )
 
-        # Hello message bhejo — copy/forward band, 5 min baad delete
         await send_hello_message(context.bot, query.message.chat.id)
 
     else:
