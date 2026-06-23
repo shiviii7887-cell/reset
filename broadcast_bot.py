@@ -52,9 +52,11 @@ async def is_user_joined(bot, user_id: int) -> bool:
             continue
         try:
             member = await bot.get_chat_member(chat_id=channel_id, user_id=user_id)
+            print(f"DEBUG: channel={channel_id} user={user_id} status={member.status}")
             if member.status not in ("member", "administrator", "creator"):
                 return False
-        except Exception:
+        except Exception as e:
+            print(f"DEBUG ERROR: channel={channel_id} user={user_id} error={e}")
             return False
     return True
 
