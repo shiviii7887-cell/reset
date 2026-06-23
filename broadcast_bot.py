@@ -16,6 +16,12 @@ CH1_LINK = os.getenv("CH1_LINK")
 CH2_ID   = os.getenv("CH2_ID")
 CH2_LINK = os.getenv("CH2_LINK")
 
+CH3_ID   = os.getenv("CH3_ID")
+CH3_LINK = os.getenv("CH3_LINK")
+
+CH4_ID   = os.getenv("CH4_ID")
+CH4_LINK = os.getenv("CH4_LINK")
+
 AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 
 # ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
@@ -45,7 +51,7 @@ HELLO_MESSAGE = """
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
 
 async def is_user_joined(bot, user_id: int) -> bool:
-    for channel_id in [CH1_ID, CH2_ID]:
+    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID]:
         if not channel_id:
             continue
         try:
@@ -61,6 +67,8 @@ def join_markup() -> InlineKeyboardMarkup:
         [
             InlineKeyboardButton("📢 Join Channel 1", url=CH1_LINK or "https://t.me/ruchika_ownss"),
             InlineKeyboardButton("📢 Join Channel 2", url=CH2_LINK or "https://t.me/backupvnsh"),
+            InlineKeyboardButton("📢 Join Channel 3", url=CH3_LINK or "https://t.me/ruchikaa_owns"),
+            InlineKeyboardButton("📢 Join Channel 4", url=CH4_LINK or "https://t.me/ruchii_owns"),
         ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
