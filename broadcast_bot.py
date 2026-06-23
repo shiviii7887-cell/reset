@@ -19,14 +19,13 @@ CH2_LINK = os.getenv("CH2_LINK")
 AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 
 # ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
-# ✏️ YAHAN APNA MESSAGE LIKHO:
 
-METHOD = """
+HELLO_MESSAGE = """
 1. AAPKO APNI INSTAGRAM OR FACEBOOK KA CLEAR DATA OR CLEAR CACHE KAR LENA HE.
 
-2. 1 FACEBOOK ME NEW FRESH ACCOUNT BANA DO. 
+2. 1 FACEBOOK ME NEW FRESH ACCOUNT BANA DO.
 
-3. GERMANY KA VPN CONNECT KAR LENA [JAB ACCOUNTS LINK KAROGE].
+3. GERMANY KA VPN CONNECT KAR LENA \[JAB ACCOUNTS LINK KAROGE\].
 
 4. JO GMAIL JACKING ID SE CONNECT HE VO GMAIL SE FACEBOOK CONNECT KAR LO.
 
@@ -38,10 +37,9 @@ METHOD = """
 
 8. FB OR IG KO LINK KAR DO OR PHIR VAPAS SE INSTAGRAM SE LOGOUT KAR DO.
 
-6. INSTAPRO YA INSTAGRAMGOLD SE FORGOT PASS KARO OR GMAIL PE LINK BHEJO. 
+9. INSTAPRO YA INSTAGRAMGOLD SE FORGOT PASS KARO OR GMAIL PE LINK BHEJO.
 
-7. AGAR RESET NAI AATA HE TO GMAIL KOI OR TRY KARO. 
-
+10. AGAR RESET NAI AATA HE TO GMAIL KOI OR TRY KARO.
 """
 
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
@@ -52,11 +50,9 @@ async def is_user_joined(bot, user_id: int) -> bool:
             continue
         try:
             member = await bot.get_chat_member(chat_id=channel_id, user_id=user_id)
-            print(f"DEBUG: channel={channel_id} user={user_id} status={member.status}")
             if member.status not in ("member", "administrator", "creator"):
                 return False
-        except Exception as e:
-            print(f"DEBUG ERROR: channel={channel_id} user={user_id} error={e}")
+        except Exception:
             return False
     return True
 
@@ -78,12 +74,12 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
     except Exception:
         pass
 
-# ── METHDO SEND + AUTO DELETE ─────────────────────────────────────────
+# ── MESSAGE SEND + AUTO DELETE ────────────────────────────────────────────────
 
-async def Method(bot, chat_id):
+async def send_hello_message(bot, chat_id):
     sent = await bot.send_message(
         chat_id=chat_id,
-        text=METHOD,
+        text=HELLO_MESSAGE,
         parse_mode="Markdown",
         protect_content=True
     )
@@ -103,7 +99,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    await METHOD(context.bot, update.effective_chat.id)
+    await send_hello_message(context.bot, update.effective_chat.id)
 
 # ── VERIFY JOIN CALLBACK ──────────────────────────────────────────────────────
 
@@ -135,7 +131,7 @@ async def verify_join_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             schedule_delete(context.bot, granted.chat.id, granted.message_id)
         )
 
-        await send_METHOD(context.bot, query.message.chat.id)
+        await send_hello_message(context.bot, query.message.chat.id)
 
     else:
         await query.answer(
