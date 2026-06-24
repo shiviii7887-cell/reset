@@ -22,28 +22,83 @@ CH3_LINK = os.getenv("CH3_LINK")
 CH4_ID   = os.getenv("CH4_ID")
 CH4_LINK = os.getenv("CH4_LINK")
 
+CH5_ID   = os.getenv("CH5_ID")
+CH5_LINK = os.getenv("CH5_LINK")
+
 AUTO_DELETE_SECONDS = 5 * 60  # 5 minutes
 
 # ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
 
 HELLO_MESSAGE = """
-1. AAPKO APNI INSTAGRAM OR FACEBOOK KA CLEAR CACHE KAR LENA HE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-2. SAME GMAIL SE FACEBOOK OR INSAGRAM ACCOUN BANAO
+🔹 STEP 1: IP Fix & Change (Mobile IP via VPN)
 
-3. JO UNC ME GMAIL HE VO GMAIL FACEBOOK ME ADD KARO
+1️⃣ VPN install karo  
+* ProtonVPN ya 1.1.1.1 VPN (safe & trusted)  
+* Jo best lage wo use kar sakte ho  
 
-4. IG ME CHECK KARO APNE AAP AAGA HOGA AGAR NAI AATA TO PHIR SE METHOD KARO 
+2️⃣ VPN connect karo  
+* Random country select karo  
+* Example: Netherlands, Germany  
 
-5. AB FORGOT PASS KARO RESET LINK AAYEGA 
+3️⃣ IP change confirm karo  
+* Google pe search karo: What is my IP  
+* New IP show ho rahi ho = IP change successful ✅  
 
-6. GERMANY KA VPN USE KARO TABHI WORK KAREGA.
+4️⃣ Temporary break (IMPORTANT)  
+* Kuch din tak jacking files / jacking mat karo  
+* Pydroid 3 uninstall kar do  
+
+5️⃣ Google Play Services reset  
+* Settings > Apps > Manage Apps  
+* Google Play Services  
+* Clear Cache + Clear All Data  
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔹 STEP 2: Instagram Reset Process
+
+1️⃣ Instagram uninstall karo  
+2️⃣ Settings > Google > Ads  
+* Reset Advertising ID  
+3️⃣ Phone restart karo  
+4️⃣ Phone security update karo  
+* Password change  
+* Fingerprint / Face Lock reset  
+5️⃣ Instagram dobara install karo  
+6️⃣ Direct ID login mat karo ❌  
+7️⃣ Pehle Instagram ka Dual / Clone app banana hoga  
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔹 STEP 3: Instagram Clone App Method
+
+1️⃣ Play Store se koi ek app install karo  
+* Parallel Space  
+* Dual Apps  
+* Clone Maker  
+
+2️⃣ Clone app ke andar Instagram clone karo  
+3️⃣ Instagram sirf clone app ke andar hi open karo  
+4️⃣ Apni Instagram ID login karo ✅  
+5️⃣ 48 HOURS wait karo ⏳  
+6️⃣ Dual / Clone app delete kar do  
+7️⃣ Ab real Instagram app me login kar lo  
+8️⃣ ✅ IP & device activity FIX ho chuki hogi  
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ IMPORTANT NOTES
+* Koi step skip mat karo  
+* Jaldbazi mat karo  
+* 48 hours ka wait mandatory he
+* har bar alag alag nai koi 1 hi vpn use karo
+* vpn ka primium leke sirf vo bhi use kar sake ho (safe hota he)
+* mass report mat karo chat me abuse mat karo
+* fight avoide karo 
+* human ki tarah use karo normal use
 """
 
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
 
 async def is_user_joined(bot, user_id: int) -> bool:
-    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID]:
+    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID, CH5_ID]:
         if not channel_id:
             continue
         try:
@@ -61,6 +116,7 @@ def join_markup() -> InlineKeyboardMarkup:
             InlineKeyboardButton("📢 Join Channel 2", url=CH2_LINK or "https://t.me/backupvnsh"),
             InlineKeyboardButton("📢 Join Channel 3", url=CH3_LINK or "https://t.me/ruchikaa_owns"),
             InlineKeyboardButton("📢 Join Channel 4", url=CH4_LINK or "https://t.me/ruchii_owns"),
+            InlineKeyboardButton("📢 Join Channel 5", url=CH4_LINK or "https://t.me/v4nshera"),
         ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
