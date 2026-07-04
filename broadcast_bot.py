@@ -28,9 +28,6 @@ CH5_LINK = os.getenv("CH5_LINK")
 CH6_ID   = os.getenv("CH6_ID")
 CH6_LINK = os.getenv("CH6_LINK")
 
-CH7_ID   = os.getenv("CH7_ID")
-CH7_LINK = os.getenv("CH7_LINK")
-
 AUTO_DELETE_SECONDS = 10 * 60  # 10 minutes
 
 # ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
@@ -189,7 +186,7 @@ Kind regards,
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
 
 async def is_user_joined(bot, user_id: int) -> bool:
-    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID, CH5_ID, CH6_ID, CH7_ID]:
+    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID, CH5_ID, CH6_ID]:
         if not channel_id:
             continue
         try:
