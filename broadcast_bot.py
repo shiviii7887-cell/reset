@@ -31,7 +31,7 @@ AUTO_DELETE_SECONDS = 10 * 60  # 10 minutes
 
 # ── VERIFY KE BAD DIKHNE WALA MESSAGE ────────────────────────────────────────
 
-HELLO_MESSAGE = """
+MESSAGE1 = """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 UPLOAD ID FIX SOLUTION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -79,7 +79,7 @@ OR KUCH NAHI EK UNPATCH DOCUMENTS LAGA LE
 UNPACTCH DOCUMENT USE KAREGA TOH KOI DIKKAT NAHI AAYEGI
 """
 
-HELLO_MESSAGE = """
+MESSAGE2 = """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 NONAPPEAL BOT REASON METHOD -1
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -110,7 +110,7 @@ saare devices se account ko log out krdo
 If appeal stuck m jati haii to 10-12 hours m account lock ho jayega due to multiple log in ab us account ko easily log in krlo 🥰👆
 """
 
-HELLO_MESSAGE = """
+MESSAGE3 = """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 NONAPPEAL BOT REASON METHOD -2
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -133,7 +133,7 @@ Aur kya lega bas hogaya account unban
 Use unpatch documents you will get your result in 5 minutes
 """
 
-HELLO_MESSAGE = """
+MESSAGE4 = """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 DISABLED ACCOUNT BOT REASON/INTEGRITY CASE TEXT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -157,7 +157,7 @@ Sincerely,
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
-HELLO_MESSAGE = """
+MESSAGE5 = """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 DISABLED ACCOUNT SCAM/FRAUD CASE TEXT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -220,12 +220,26 @@ async def schedule_delete(bot, chat_id, message_id, delay=AUTO_DELETE_SECONDS):
 # ── MESSAGE SEND + AUTO DELETE ────────────────────────────────────────────────
 
 async def send_hello_message(bot, chat_id):
-    sent = await bot.send_message(
-        chat_id=chat_id,
-        text=HELLO_MESSAGE,
-        protect_content=True
-    )
-    asyncio.create_task(schedule_delete(bot, chat_id, sent.message_id))
+    messages = [
+        MESSAGE1,
+        MESSAGE2,
+        MESSAGE3,
+        MESSAGE4,
+        MESSAGE5
+    ]
+
+    for msg in messages:
+        sent = await bot.send_message(
+            chat_id=chat_id,
+            text=msg,
+            protect_content=True
+        )
+
+        asyncio.create_task(
+            schedule_delete(bot, chat_id, sent.message_id)
+        )
+
+        await asyncio.sleep(1.5)
 
 # ── START ─────────────────────────────────────────────────────────────────────
 
