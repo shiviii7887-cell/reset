@@ -25,8 +25,7 @@ CH4_LINK = os.getenv("CH4_LINK")
 CH5_ID   = os.getenv("CH5_ID")
 CH5_LINK = os.getenv("CH5_LINK")
 
-CH6_ID   = os.getenv("CH6_ID")
-CH6_LINK = os.getenv("CH6_LINK")
+
 
 AUTO_DELETE_SECONDS = 10 * 60  # 10 minutes
 
@@ -186,7 +185,7 @@ Kind regards,
 # ── JOIN CHECK ────────────────────────────────────────────────────────────────
 
 async def is_user_joined(bot, user_id: int) -> bool:
-    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID, CH5_ID, CH6_ID]:
+    for channel_id in [CH1_ID, CH2_ID, CH3_ID, CH4_ID, CH5_ID]:
         if not channel_id:
             continue
         try:
@@ -204,11 +203,8 @@ def join_markup() -> InlineKeyboardMarkup:
             InlineKeyboardButton("📢 Channel 2", url=CH2_LINK or "https://t.me/backupvnsh"),
             InlineKeyboardButton("📢 Channel 3", url=CH3_LINK or "https://t.me/ruchu_owns"),       
             InlineKeyboardButton("📢 Channel 4", url=CH4_LINK or "https://t.me/ruchii_owns"),
-            InlineKeyboardButton("📢 Channel 5", url=CH5_LINK or "https://t.me/v4nshera"),
-            InlineKeyboardButton("📢 Channel 6", url=CH6_LINK or "https://t.me/leeeunjuu"),
-            
-            
-        ],
+            InlineKeyboardButton("📢 Channel 5", url=CH5_LINK or "https://t.me/v4nshera"),           
+       ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
 
