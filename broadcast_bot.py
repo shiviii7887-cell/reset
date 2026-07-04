@@ -200,7 +200,7 @@ async def is_user_joined(bot, user_id: int) -> bool:
 def join_markup() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("📢 Channel 1", url=CH1_LINK or "https://t.me/leeunwooera"),
+            InlineKeyboardButton("📢 Channel 1", url=CH1_LINK or "https://t.me/leeeunwooera"),
             InlineKeyboardButton("📢 Channel 2", url=CH2_LINK or "https://t.me/backupvnsh"),
             InlineKeyboardButton("📢 Channel 3", url=CH3_LINK or "https://t.me/ruchu_owns"),       
             InlineKeyboardButton("📢 Channel 4", url=CH4_LINK or "https://t.me/ruchii_owns"),
