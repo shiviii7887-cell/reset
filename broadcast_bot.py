@@ -205,7 +205,7 @@ def join_markup() -> InlineKeyboardMarkup:
             InlineKeyboardButton("📢 Channel 3", url=CH3_LINK or "https://t.me/ruchu_owns"),       
             InlineKeyboardButton("📢 Channel 4", url=CH4_LINK or "https://t.me/ruchii_owns"),
             InlineKeyboardButton("📢 Channel 5", url=CH5_LINK or "https://t.me/v4nshera"),
-            InlineKeyboardButton("📢 Channel 6", url=CH5_LINK or "https://t.me/leeeunjuu"), 
+            InlineKeyboardButton("📢 Channel 6", url=CH6_LINK or "https://t.me/leeeunjuu"), 
        ],
         [InlineKeyboardButton("♻️ Try Again", callback_data="verify_join")],
     ])
