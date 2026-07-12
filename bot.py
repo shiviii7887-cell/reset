@@ -35,10 +35,10 @@ from telegram.ext import (
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 
 # Primary backend to try first: "anthropic" or "openai"
-AI_BACKEND = os.environ.get("AI_BACKEND", "anthropic").lower()
+AI_BACKEND = os.environ.get("AI_BACKEND", "").lower()
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
+ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "")
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o")
